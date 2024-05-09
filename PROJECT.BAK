@@ -1,0 +1,170 @@
+//student report card project
+#include<iostream.h>
+#include<conio.h>
+#include<stdio.h>
+char ch;
+class studentDetails
+{
+    int subjectNumber,i,thoMax,IAMax,IAMarks[10],IATotal;
+    char name[20],subjectName[10][500],ch;
+    double rollNo;
+    float subjectMarks[10],total,thoTotal;
+  public:
+    void valueAss(int ttl, int thoTtl, int IATtl){     //Private member variable value assign
+      total=ttl;
+      thoTotal=thoTtl;
+      IATotal=IATtl;
+    }
+
+    void studentData(){      //Student name and roll no
+      cout<<"\t\t\t\tSTUDENT DATA"<<endl<<"\t\t\t\t";
+      for(i=0; i<12; i++){
+	cout<<"-";
+      }
+      cout<<"\n\nEnter name:";
+      cin>>name;
+      cout<<"Enter Roll no.:";
+      cin>>rollNo;
+    }
+
+    void subject(){         //subjects
+      cout<<"\nHow many subject you have:";
+      cin>>subjectNumber;
+      cout<<"Enter the name's of "<<subjectNumber<<" subject:\n";
+      for(i=0; i<subjectNumber; i++){
+	gets(subjectName[i]);
+      }
+      cout<<"\n\t\tPress Enter for continue...";
+      getch();
+    }
+
+    void option(){
+      clrscr();
+      cout<<"\n\n\n\n\nHOW YOU WANT TO SEE YOUR RESULT:TOTALLY OR THEORY WITH INTERNAL ASSISMENT?";
+      cout<<"\n\nPress 1 for Totally";
+      cout<<"\t\tPress 2 for Theory with Internal Assisment(I.A.)";
+      ch=getch();
+      if(ch=='1'){
+	OF100();
+      }
+      else if(ch=='2'){
+	ThoIA();
+      }
+      else
+	cout<<"Please Write correct input";
+    }
+
+    void OF100(){
+      clrscr();
+      cout<<"\t\t\t\tOUT OF 100\n\t\t\t\t";
+      for(i=0; i<10; i++){
+	cout<<"-";
+      }
+      marksObtained();
+      displayResult();
+    }
+
+    void ThoIA(){
+      clrscr();
+      theoryMarks();
+      iaMarks();
+      displayResult();
+    }
+
+    void theoryMarks(){
+      clrscr();
+      cout<<"\t\t\t\tMarks Obtained\n\t\t\t\t";
+      for(i=0; i<14; i++){
+	cout<<"-";
+      }
+      cout<<"\nTheory Marks\n\n";
+      cout<<"Maximum Marks:";
+      cin>>thoMax;
+      for(i=0; i<subjectNumber; i++){
+	correct:cout<<i+1<<"."<<subjectName[i]<<":";
+	cin>>subjectMarks[i];
+	if(subjectMarks[i]>thoMax || subjectMarks[i]<0){
+	  cout<<"Enter correct marks\n\n";
+	  goto correct;
+	}
+      }
+    }
+
+    void iaMarks(){
+      cout<<"\n\nInternal Assisment(I.A.) Marks\n\n";
+      IAMax=100-thoMax;
+      cout<<"Maximum Marks:"<<IAMax<<endl;
+      for(i=0; i<subjectNumber; i++){
+	corr:cout<<i+1<<"."<<subjectName[i]<<":";
+	cin>>IAMarks[i];
+	if(IAMarks[i]>IAMax || IAMarks[i]<0){
+	  cout<<"Enter correct marks\n\n";
+	  goto corr;
+	}
+      }
+    }
+
+    void marksObtained(){
+      cout<<"\nEnter your marks:"<<endl;
+      for(i=0; i<subjectNumber; i++){
+      correct:cout<<subjectName[i]<<":";
+	cin>>subjectMarks[i];
+	if(subjectMarks[i]>100 || subjectMarks[i]<0){
+	  cout<<"Enter correct marks\n\n";
+	  goto correct;
+	}
+      }
+      cout<<"\n\t\tPress Enter for continue...";
+      getch();
+    }
+
+    void displayResult(){
+      clrscr();
+      cout<<"\t\t\t\tRESULT\n\t\t\t\t";
+      for(i=0; i<7; i++){
+	cout<<"-";
+      }
+      cout<<"\n\nName:"<<name;
+      cout<<"\nRoll No.:"<<rollNo;
+      cout<<"\n\t\tDETAILS OF MARKS\n\n";
+      cout<<"Sr.No.\tSUBJECT NAME\tSUBJECT MARKS\n";
+      if(ch=='2'){
+	cout<<"\t\t\tTheory\tI.A.";
+      }
+      for(i=0; i<subjectNumber; i++){
+	cout<<"\n"<<i+1<<".\t";
+	cout<<subjectName[i]<<"\t\t";
+	if(ch=='1'){
+	  cout<<subjectMarks[i];
+	  total=subjectMarks[i]+total;
+	}
+	else if(ch=='2'){
+	  cout<<subjectMarks[i]<<"\t"<<IAMarks[i];
+	  thoTotal=subjectMarks[i]+thoTotal;
+	  IATotal=IATotal+IAMarks[i];
+	  total=thoTotal+IATotal;
+	}
+	cout<<endl;
+      }
+      if(ch=='2'){
+	cout<<"\n\t\tTotal:  "<<thoTotal<<"\t"<<IATotal;
+      }
+      else{
+	cout<<"\n\t\tTotal:\t"<<total;
+      }
+      cout<<"\n Total Marks (out of"<<subjectNumber*100<<"):"<<total;
+      cout<<"\n Percentage:"<<total/subjectNumber;
+    }
+};
+
+int main()
+{
+  studentDetails student;
+  clrscr();
+  student.valueAss(0,0,0);
+  student.studentData();
+  student.subject();
+  student.option();
+  getch();
+  return 0;
+}
